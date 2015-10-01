@@ -1,4 +1,0 @@
-<p> {{ object.title }} </p>
-<p> {{ object.author }} </p>
-<p> {{ object.isbn }} </p>
-<p> {{ object.dewey }} </p>
