@@ -63,93 +63,124 @@ def get_book_info(field=False, keyword=False, is_exact=False, search_limit=confi
     if not field and not keyword and not no_keyword:
         return result
 
-    if rows:
-        for item in rows:
-            query += '%s.%s, ' % (item[3], item[5])
-            columns.append(item[2])
+    elif field == 'call_number' and keyword:
+        query = config.QUERY_TO_GET_BOOK_DEATAIL_BY_CALL_NUMBER % keyword
 
-            if item[2].lower() == 'title':
-                title_at = count
-                title_indicator = item[2]
+        rows = run_query(query)
 
-            if item[2].lower() == 'cover':
-                cover_at = count
-                cover_indicator = item[2]
-
-            if item[4]:
-                need_join = 1
-
-            count += 1
-
-        query = query[:-2]
-
-        columns.append('id')
-        book_id_at = len(columns) - 1
-
-        query += ', READERWARE.CALL_NUMBER '
-
-        query += ' from READERWARE '
-
-        if need_join:
-            for item in rows:
-                if item[4]:
-                    query += 'left join %s on %s.%s = %s.%s ' % (item[3], item[4], item[7], item[3], item[6])
-
-        if not no_keyword:
-            if isinstance(keyword, list) and keyword:
-                for index in range(0, len(keyword)):
-                    if index != 0:
-                        query += 'and '
-
-                    else:
-                        query += 'where '
-
-                    if is_exact:
-                        query += 'READERWARE.%s="%s" ' % (field, keyword[index])
-
-                    else:
-                        query += 'READERWARE.%s like "%%%s%%" ' % (field, keyword[index])
-                    index += 1
+        if rows:
+            query_result = rows[0]
+            entry = {}
+            entry["id"] = query_result[0]
+            
+            if query_result[5]:
+                entry["cover"] = os.path.join(settings.STATIC_URL, query_result[5])
 
             else:
-                if is_exact:
-                    query += 'where READERWARE.%s="%s" ' % (field, keyword)
+                entry["cover"] = get_book_cover_default()
+
+            entry["title"] = query_result[1]
+
+            content = {}
+            content["ISBN"] = query_result[3]
+            content["Author"] = query_result[2]
+            content["Dewey"] = query_result[4]
+            content["SponsorName"] = query_result[6]
+            content["SponsorContact"] = query_result[7]
+
+            entry["content"] = content
+
+            result.append(entry)
+
+    else: # whatever the crap I wrote
+        if rows:
+            for item in rows:
+                query += '%s.%s, ' % (item[3], item[5])
+                columns.append(item[2])
+
+                if item[2].lower() == 'title':
+                    title_at = count
+                    title_indicator = item[2]
+
+                if item[2].lower() == 'cover':
+                    cover_at = count
+                    cover_indicator = item[2]
+
+                if item[4]:
+                    need_join = 1
+
+                count += 1
+
+            query = query[:-2]
+
+            columns.append('id')
+            book_id_at = len(columns) - 1
+
+            query += ', READERWARE.CALL_NUMBER '
+
+            query += ' from READERWARE '
+
+            if need_join:
+                for item in rows:
+                    if item[4]:
+                        query += 'left join %s on %s.%s = %s.%s ' % (item[3], item[4], item[7], item[3], item[6])
+
+            if not no_keyword:
+                if isinstance(keyword, list) and keyword:
+                    for index in range(0, len(keyword)):
+                        if index != 0:
+                            query += 'and '
+
+                        else:
+                            query += 'where '
+
+                        if is_exact:
+                            query += 'READERWARE.%s="%s" ' % (field, keyword[index])
+
+                        else:
+                            query += 'READERWARE.%s like "%%%s%%" ' % (field, keyword[index])
+                        index += 1
 
                 else:
-                    query += 'where READERWARE.%s like "%%%s%%" ' % (field, keyword)
+                    if is_exact:
+                        query += 'where READERWARE.%s="%s" ' % (field, keyword)
+
+                    else:
+                        query += 'where READERWARE.%s like "%%%s%%" ' % (field, keyword)
 
 
-    query += 'limit %s' % search_limit
+        query += 'limit %s' % search_limit
 
-    query_result = run_query(query)
+        query_result = run_query(query)
 
-    if query_result:
-        values = list(query_result[0])
+        if query_result:
+            values = list(query_result[0])
 
-        for item in query_result:
-            values = list(item)
+            for item in query_result:
+                values = list(item)
 
-            if title_indicator:
-                title = values[title_at]
+                if title_indicator:
+                    title = values[title_at]
 
-            if values[cover_at]:
-                cover = os.path.join(settings.STATIC_URL, values[cover_at])
+                if values[cover_at]:
+                    cover = os.path.join(settings.STATIC_URL, values[cover_at])
 
-            else:
-                cover = get_book_cover_default()
+                else:
+                    cover = get_book_cover_default()
 
-            book_id = values[book_id_at]
+                book_id = values[book_id_at]
 
-            content = dict(zip(columns, values))
+                content = dict(zip(columns, values))
 
-            if title_indicator:
-                del content[title_indicator]
-            if cover_indicator:
-                del content[cover_indicator]
+                if title_indicator:
+                    del content[title_indicator]
+                if cover_indicator:
+                    del content[cover_indicator]
 
-            del content['id']
+                del content['id']
 
-            result.append({'id': book_id, 'title': title, 'cover': cover, 'content': content})
+                result.append({'id': book_id, 'title': title, 'cover': cover, 'content': content})
+
 
     return result
 

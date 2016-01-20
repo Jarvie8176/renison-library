@@ -1,6 +1,6 @@
 <div class="jumbotron text-center push-top">
     <div id="cover_container">
-        <img id="main_book_cover" ng-src="{{coverBaseApiLink + currentBook.cover}}">
+        <img id="main_book_cover" ng-src="{{coverBaseApiLink + currentBook.cover}}" ng-attr-alt="{{ 'Book Cover' }}"/>
     </div>
     <div id="info_container">
         <table id="info_table" cellspacing="0" cellpadding="0" border="0">
@@ -13,6 +13,8 @@
                             <li><b>Author: </b>{{currentBook.content.Author}}</li>
                             <li ng-hide="currentBook.content.ISBN == null"><b>ISBN: </b>{{currentBook.content.ISBN}}</li>
                             <li ng-hide="currentBook.content.Dewey == null"><b>Dewey: </b>{{currentBook.content.Dewey}}</li>
+                            <li ng-hide="currentBook.content.SponsorName == null"><b>Sponsor: </b>{{currentBook.content.SponsorName}}</li>
+                            <li ng-hide="currentBook.content.SponsorContact == null"><b>Contact Info: </b>{{currentBook.content.SponsorContact}}</li>
                         </ul>
                     </div>
                 </td>
