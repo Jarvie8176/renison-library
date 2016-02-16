@@ -1,0 +1,1098 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Renison Webapp API
+  description: |
+    **definitions of API endpoints**
+host: localhost:3001
+
+basePath: '/'
+
+produces:
+  - application/json
+
+paths:
+  '/user':
+    x-swagger-router-controller: user
+    put:
+      tags:
+        - book
+      summary: add new user
+      description: ''
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/user/{user-id}':
+    x-swagger-router-controller: user
+    post:
+      tags:
+        - user
+      summary: update user info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: user-id
+          in: path
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/login':
+    x-swagger-router-controller: session
+    post:
+      tags:
+        - user
+      summary: login with username and password
+
+      parameters:
+       -
+        name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/logout':
+    x-swagger-router-controller: session
+    get:
+      tags:
+        - user
+      summary: logout
+
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/search':
+    x-swagger-router-controller: search
+    get:
+      tags:
+        - search
+      summary: search for items in database
+      parameters:
+        -
+          name: type
+          in: query
+          description: 'available types: "book"'
+          required: true
+          type: string
+        -
+          name: item
+          in: query
+          required: true
+          description: 'available items: "title", "author", "isbn"'
+          type: string
+        -
+          name: keyword
+          in: query
+          required: true
+          description: keyword to be searched
+          type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/basicBookInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/book':
+    x-swagger-router-controller: backend_management
+    get:
+      tags:
+        - book
+      summary: get basic info of all books
+      description: ''
+
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/basicBookInfo'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+    put:
+      tags:
+        - book
+      summary: add new book
+      description: ''
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedBookInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/book/{book-id}':
+    x-swagger-router-controller: backend_management
+    get:
+      tags:
+        - book
+      summary: get detailed book info
+      description: ''
+
+      parameters:
+        -
+          name: book-id
+          in: path
+          description: unique id of book
+          required: true
+          type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/detailedBookInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+    post:
+      tags:
+        - book
+      summary: update detailed book info
+      description: ''
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: book-id
+          in: path
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedBookInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/author':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - author
+      summary: add new author
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedAuthorInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/author/{author-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - author
+      summary: update author info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: author-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedAuthorInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/publisher':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - publisher
+      summary: add new publisher
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/publisher'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/publisher/{publisher-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - publisher
+      summary: update publisher info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: publisher-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/publisher'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/keyword':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - keyword
+      summary: add new keyword
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/keyword'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/keyword/{keyword-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - keyword
+      summary: update keyword info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: keyword-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/keyword'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/cover':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - cover
+      summary: add new cover
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/cover'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/cover/{cover-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - cover
+      summary: update cover info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: cover-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/cover'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/language':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - language
+      summary: add new language
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/language'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/language/{language-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - language
+      summary: update language info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: language-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/language'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/category':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - category
+      summary: add new category
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/category'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/category/{category-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - category
+      summary: update category info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: category-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/category'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/sponsor':
+    x-swagger-router-controller: backend_management
+    put:
+      tags:
+        - sponsor
+      summary: add new sponsor
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/sponsor'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/sponsor/{sponsor-id}':
+    x-swagger-router-controller: backend_management
+    post:
+      tags:
+        - sponsor
+      summary: update sponsor info
+
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: sponsor-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/sponsor'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+
+definitions:
+  response:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+  metaToken:
+    type: object
+    properties:
+      token:
+        type: string
+
+  basicBookInfo:
+    type: object
+    properties:
+      id:
+        type: number
+        description: unique id of book
+      titleOriginal:
+        type: string
+        description: book title in original language
+      titleRomanized:
+        type: string
+        description: book title in English
+      edition:
+        type: string
+      authors:
+        type: array
+        items:
+          $ref: '#/definitions/basicAuthorInfo'
+      coverUrl:
+        type: string
+
+  detailedBookInfo:
+    type: object
+    required:
+      - titleRomanized
+    properties:
+      id:
+        type: number
+      titleOriginal:
+        type: string
+        description: book title in original language
+      titleRomanized:
+        type: string
+        description: book title in English
+      edition:
+        type: string
+      authors:
+        type: array
+        items:
+          $ref: '#/definitions/basicAuthorInfo'
+      coverUrl:
+        type: string
+      subtitleOriginal:
+        type: string
+      subtitleRomanized:
+        type: string
+      publisherOriginal:
+        type: string
+      publisherRomanized:
+        type: string
+      dewey:
+        type: string
+      barcode:
+        type: string
+      pages:
+        type: number
+      isbn:
+        type: string
+      issn:
+        type: string
+      iccn:
+        type: string
+      language:
+        type: string
+      categories:
+        type: array
+        items:
+          type: string
+      keywords:
+        type: array
+        items:
+          type: string
+      sponsor:
+        type: object
+        properties:
+          name:
+            type: string
+          url:
+            type: string
+
+  basicAuthorInfo:
+    type: object
+    properties:
+      id:
+        type: number
+      type:
+        type: string
+        description: type is either "individual" or "organization"
+      nameOriginal:
+        type: string
+      nameRomanized:
+        type: string
+
+  detailedAuthorInfo:
+    type: object
+    description: either romanized firstname and lastname or orginzation name is required
+    properties:
+      id:
+        type: number
+      lastnameOriginal:
+        type: string
+      firstnameOriginal:
+        type: string
+      middlenameOriginal:
+        type: string
+      orginzationNameOriginal:
+        type: string
+      lastnameRomanized:
+        type: string
+      firstnameRomanized:
+        type: string
+      middlenameRomanized:
+        type: string
+      orginzationNameRomanized:
+        type: string
+
+  publisher:
+    type: object
+    required:
+      - nameRomanized
+    properties:
+      id:
+        type: number
+      nameOriginal:
+        type: string
+      nameRomanized:
+        type: string
+
+  keyword:
+    type: object
+    required:
+      - keyword
+    properties:
+      id:
+        type: number
+      keyword:
+        type: string
+
+  cover:
+    type: object
+    required:
+      - url
+    properties:
+      id:
+        type: number
+      url:
+        type: string
+
+  language:
+    type: object
+    required:
+      - language
+    properties:
+      id:
+        type: number
+      language:
+        type: string
+
+  category:
+    type: object
+    required:
+      - category
+    properties:
+      id:
+        type: number
+      category:
+        type: string
+
+  sponsor:
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: number
+      name:
+        type: string
+      url:
+        type: string
+      description:
+        type: string
+
+  user:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
