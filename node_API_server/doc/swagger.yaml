@@ -1,0 +1,1097 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Renison Webapp API
+  description: |
+    **definitions of API endpoints**
+host: reneascca.ca
+
+basePath: '/api'
+
+paths:
+  '/user':
+    put:
+      tags:
+        - book
+      summary: add new user
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/user/{user-id}':
+    post:
+      tags:
+        - user
+      summary: update user info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: user-id
+          in: path
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/user'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/login':
+    post:
+      tags:
+        - user
+      summary: login with username and password
+      produces:
+          - application/json
+
+      parameters:
+       -
+        name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          required:
+            - username
+            - password
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/logout':
+    get:
+      tags:
+        - user
+      summary: logout
+      produces:
+          - application/json
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/book':
+    get:
+      tags:
+        - book
+      summary: get basic info of all books
+      description: ''
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/basicBookInfo'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+    put:
+      tags:
+        - book
+      summary: add new book
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedBookInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/book/{book-id}':
+    get:
+      tags:
+        - book
+      summary: get detailed book info
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        -
+          name: book-id
+          in: path
+          description: unique id of book
+          required: true
+          type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/detailedBookInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+    post:
+      tags:
+        - book
+      summary: update detailed book info
+      description: ''
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: book-id
+          in: path
+          required: true
+          type: string
+        -
+          name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedBookInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/search':
+    get:
+      tags:
+        - search
+      summary: search for items in database
+      parameters:
+        -
+          name: type
+          in: query
+          description: 'available types: "book"'
+          required: true
+          type: string
+        -
+          name: item
+          in: query
+          required: true
+          description: 'available items: "title", "author", "isbn"'
+          type: string
+        -
+          name: keyword
+          in: query
+          required: true
+          description: keyword to be searched
+          type: string
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/basicBookInfo'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/author':
+    put:
+      tags:
+        - author
+      summary: add new author
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedAuthorInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/author/{author-id}':
+    post:
+      tags:
+        - author
+      summary: update author info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: author-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/detailedAuthorInfo'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/publisher':
+    put:
+      tags:
+        - publisher
+      summary: add new publisher
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/publisher'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/publisher/{publisher-id}':
+    post:
+      tags:
+        - publisher
+      summary: update publisher info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: publisher-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/publisher'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/keyword':
+    put:
+      tags:
+        - keyword
+      summary: add new keyword
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/keyword'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/keyword/{keyword-id}':
+    post:
+      tags:
+        - keyword
+      summary: update keyword info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: keyword-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/keyword'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/cover':
+    put:
+      tags:
+        - cover
+      summary: add new cover
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/cover'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/cover/{cover-id}':
+    post:
+      tags:
+        - cover
+      summary: update cover info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: cover-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/cover'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/language':
+    put:
+      tags:
+        - language
+      summary: add new language
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/language'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/language/{language-id}':
+    post:
+      tags:
+        - language
+      summary: update language info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: language-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/language'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/category':
+    put:
+      tags:
+        - category
+      summary: add new category
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/category'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/category/{category-id}':
+    post:
+      tags:
+        - category
+      summary: update category info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: category-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/category'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/sponsor':
+    put:
+      tags:
+        - sponsor
+      summary: add new sponsor
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/sponsor'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+  '/sponsor/{sponsor-id}':
+    post:
+      tags:
+        - sponsor
+      summary: update sponsor info
+      produces:
+        - application/json
+      parameters:
+        -
+          name: token
+          in: header
+          required: true
+          type: string
+        -
+          name: sponsor-id
+          in: path
+          required: true
+          type: string
+        -
+          in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/sponsor'
+      responses:
+        '200':
+          description: sucessful operation
+          schema:
+            type: object
+            properties:
+              meta:
+                $ref: '#/definitions/metaToken'
+              body:
+                $ref: '#/definitions/response'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response'
+        default:
+          description: ''
+          schema:
+            $ref: '#/definitions/response'
+
+
+definitions:
+  response:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+  metaToken:
+    type: object
+    properties:
+      token:
+        type: string
+
+  basicBookInfo:
+    type: object
+    properties:
+      id:
+        type: number
+        description: unique id of book
+      titleOriginal:
+        type: string
+        description: book title in original language
+      titleRomanized:
+        type: string
+        description: book title in English
+      edition:
+        type: string
+      authors:
+        type: array
+        items:
+          $ref: '#/definitions/basicAuthorInfo'
+      coverUrl:
+        type: string
+
+  detailedBookInfo:
+    type: object
+    required:
+      - titleRomanized
+    properties:
+      id:
+        type: number
+      titleOriginal:
+        type: string
+        description: book title in original language
+      titleRomanized:
+        type: string
+        description: book title in English
+      edition:
+        type: string
+      authors:
+        type: array
+        items:
+          $ref: '#/definitions/basicAuthorInfo'
+      coverUrl:
+        type: string
+      subtitleOriginal:
+        type: string
+      subtitleRomanized:
+        type: string
+      publisherOriginal:
+        type: string
+      publisherRomanized:
+        type: string
+      dewey:
+        type: string
+      barcode:
+        type: string
+      pages:
+        type: number
+      isbn:
+        type: string
+      issn:
+        type: string
+      iccn:
+        type: string
+      language:
+        type: string
+      categories:
+        type: array
+        items:
+          type: string
+      keywords:
+        type: array
+        items:
+          type: string
+      sponsor:
+        type: object
+        properties:
+          name:
+            type: string
+          url:
+            type: string
+
+  basicAuthorInfo:
+    type: object
+    properties:
+      id:
+        type: number
+      type:
+        type: string
+        description: type is either "individual" or "organization"
+      nameOriginal:
+        type: string
+      nameRomanized:
+        type: string
+
+  detailedAuthorInfo:
+    type: object
+    description: either romanized firstname and lastname or orginzation name is required
+    properties:
+      id:
+        type: number
+      lastnameOriginal:
+        type: string
+      firstnameOriginal:
+        type: string
+      middlenameOriginal:
+        type: string
+      orginzationNameOriginal:
+        type: string
+      lastnameRomanized:
+        type: string
+      firstnameRomanized:
+        type: string
+      middlenameRomanized:
+        type: string
+      orginzationNameRomanized:
+        type: string
+
+  publisher:
+    type: object
+    required:
+      - nameRomanized
+    properties:
+      id:
+        type: number
+      nameOriginal:
+        type: string
+      nameRomanized:
+        type: string
+
+  keyword:
+    type: object
+    required:
+      - keyword
+    properties:
+      id:
+        type: number
+      keyword:
+        type: string
+
+  cover:
+    type: object
+    required:
+      - url
+    properties:
+      id:
+        type: number
+      url:
+        type: string
+
+  language:
+    type: object
+    required:
+      - language
+    properties:
+      id:
+        type: number
+      language:
+        type: string
+
+  category:
+    type: object
+    required:
+      - category
+    properties:
+      id:
+        type: number
+      category:
+        type: string
+
+  sponsor:
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: number
+      name:
+        type: string
+      url:
+        type: string
+      description:
+        type: string
+
+  user:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      password:
+        type: string

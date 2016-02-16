@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1" last-position="493,386" last-zoom="0.85"
+	 default-schema="public" default-owner="postgres">
+<role name="renison"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="renison">
+	<role name="renison"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="author_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2880" y="200"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="lastname_romanized">
+		<type name="text" length="256"/>
+	</column>
+	<column name="lastname_original">
+		<type name="text" length="256"/>
+	</column>
+	<column name="firstname_romanized">
+		<type name="text" length="256"/>
+	</column>
+	<column name="firstname_original">
+		<type name="text" length="256"/>
+	</column>
+	<column name="middlename_original">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="middlename_romanized">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="orginzation_name_romanized">
+		<type name="text"/>
+	</column>
+	<column name="orginzation_name_original">
+		<type name="text"/>
+	</column>
+	<constraint name="authorentry_pkey" type="pk-constr" table="public.author_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="authorentry_id_idx" table="public.author_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="book_author">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="280"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_AUTHOR_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="bookauthor_pkey" type="pk-constr" table="public.book_author">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="book_category">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_CATEGORY_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="bookcategory_pkey" type="pk-constr" table="public.book_category">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="book_cover">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_BOOK_COVER_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="bookcover_pkey" type="pk-constr" table="public.book_cover">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="book_cover_id_idx" table="public.book_cover"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="book_cover_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2900" y="680"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="asset_name" not-null="true">
+		<type name="text" length="1024"/>
+	</column>
+	<constraint name="bookcoverentry_pkey" type="pk-constr" table="public.book_cover_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="bookcoverentry_id_idx" table="public.book_cover_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="bookcoverentry_assetname_idx" table="public.book_cover_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="asset_name"/>
+		</idxelement>
+</index>
+
+<table name="book_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="1529.23" y="878.462"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="title_romanized" not-null="true">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="title_original">
+		<type name="text" length="2048"/>
+	</column>
+	<column name="subtitle_romanized">
+		<type name="text" length="2048"/>
+	</column>
+	<column name="subtitle_original">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="publisher_romanized">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="publisher_original">
+		<type name="text" length="2048"/>
+	</column>
+	<column name="date_released">
+		<type name="date"/>
+	</column>
+	<column name="dewey">
+		<type name="text" length="64"/>
+	</column>
+	<column name="edition">
+		<type name="text" length="128"/>
+	</column>
+	<column name="barcode">
+		<type name="text" length="64"/>
+	</column>
+	<column name="pages">
+		<type name="numeric"/>
+	</column>
+	<column name="isbn">
+		<type name="text" length="16"/>
+	</column>
+	<column name="issn">
+		<type name="text" length="16"/>
+	</column>
+	<column name="lccn">
+		<type name="text" length="16"/>
+	</column>
+	<column name="created_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="updated_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<constraint name="bookentry_pkey" type="pk-constr" table="public.book_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="bookentry_barcode_idx" table="public.book_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="barcode"/>
+		</idxelement>
+</index>
+
+<index name="bookentry_isbn_idx" table="public.book_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="isbn"/>
+		</idxelement>
+</index>
+
+<index name="bookentry_id_idx" table="public.book_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="book_keyword">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="480"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_KEYWORD_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="bookkeyword_pkey" type="pk-constr" table="public.book_keyword">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="book_keyword_id_idx" table="public.book_keyword"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="book_language">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="860"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_LANGUAGE_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="booklanguage_pkey" type="pk-constr" table="public.book_language">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="booklanguage_id_idx" table="public.book_language"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="book_sponsor">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2440" y="1220"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_BOOK_ENTRY">
+		<type name="integer"/>
+	</column>
+	<column name="id_SPONSOR_ENTRY">
+		<type name="integer"/>
+	</column>
+	<constraint name="booksponsor_pkey" type="pk-constr" table="public.book_sponsor">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="book_sponsor_id_idx" table="public.book_sponsor"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<table name="category_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2940" y="1040"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="category" not-null="true">
+		<type name="text" length="1024"/>
+	</column>
+	<constraint name="categoryentry_pkey" type="pk-constr" table="public.category_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="categoryentry_id_idx" table="public.category_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="categoryentry_category_idx" table="public.category_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="category"/>
+		</idxelement>
+</index>
+
+<table name="keyword_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2900" y="480"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="keyword" not-null="true">
+		<type name="text" length="1024"/>
+	</column>
+	<constraint name="keywordentry_pkey" type="pk-constr" table="public.keyword_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="keywordentry_id_idx" table="public.keyword_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="keywordentry_keyword_idx" table="public.keyword_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="keyword"/>
+		</idxelement>
+</index>
+
+<table name="language_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2920" y="880"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="language" not-null="true">
+		<type name="text" length="128"/>
+	</column>
+	<constraint name="languageentry_pkey" type="pk-constr" table="public.language_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="languageentry_id_idx" table="public.language_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="languageentry_language_idx" table="public.language_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="language"/>
+		</idxelement>
+</index>
+
+<table name="sponsor_entry">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="2960" y="1180"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="description">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="1024"/>
+	</column>
+	<column name="url">
+		<type name="text" length="1024"/>
+	</column>
+	<constraint name="sponsorentry_pkey" type="pk-constr" table="public.sponsor_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<index name="sponsorentry_name_idx" table="public.sponsor_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="name"/>
+		</idxelement>
+</index>
+
+<index name="sponsorentry_id_idx" table="public.sponsor_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="book_author_id_idx" table="public.book_author"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="id"/>
+		</idxelement>
+</index>
+
+<index name="book_cover_book_idx" table="public.book_author"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_author_author_idx" table="public.book_author"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_AUTHOR_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="bookcover_book_id_idx" table="public.book_cover"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_category_book_id_index" table="public.book_category"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_category_category_id_index" table="public.book_category"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_CATEGORY_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_sponsor_book_id_idx" table="public.book_sponsor"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_sponsor_sponsor_id_idx" table="public.book_sponsor"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_SPONSOR_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="bookcover_cover_id_idx" table="public.book_cover"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_COVER_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_keyword_book_id_idx" table="public.book_keyword"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_keyword_keyword_id_idx" table="public.book_keyword"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_KEYWORD_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_language_book_id_idx" table="public.book_language"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_BOOK_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<index name="book_language_language_id_idx" table="public.book_language"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="&quot;id_LANGUAGE_ENTRY&quot;"/>
+		</idxelement>
+</index>
+
+<table name="user">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="680" y="1000"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="username" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="password" not-null="true">
+		<type name="json"/>
+	</column>
+	<column name="salt" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="created_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="updated_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<constraint name="user_pkey" type="pk-constr" table="public.&quot;user&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="user_uni" type="uq-constr" table="public.&quot;user&quot;">
+		<columns names="id,username,email" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_role" index="5"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="role_fk" index="2"/>
+	</customidxs>
+</table>
+
+<table name="role">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="1007.69" y="1246.15"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="role" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="role_pkey" type="pk-constr" table="public.role">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="role_uni" type="uq-constr" table="public.role">
+		<columns names="id,role" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="role_has_many_user" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#83af1f"
+	 src-table="public.role"
+	 dst-table="public.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<table name="user_book">
+	<schema name="public"/>
+	<role name="renison"/>
+	<position x="1230.77" y="775.385"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<constraint name="user_book_pkey" type="pk-constr" table="public.user_book">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="user_book_uni" type="uq-constr" table="public.user_book">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<relationship name="user_has_many_user_book" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#83af1f"
+	 src-table="public.&quot;user&quot;"
+	 dst-table="public.user_book"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="book_entry_has_many_user_book" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#83af1f"
+	 src-table="public.book_entry"
+	 dst-table="public.user_book"
+	 src-required="false" dst-required="false"/>
+
+<function name="set_updated_at_timestamp"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="renison"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+	NEW.updated_at = now();
+	return NEW;
+END]]></definition>
+</function>
+
+<function name="set_created_at_timestamp"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+	NEW.created_at = now();
+	NEW.updated_at = now();
+	return NEW;
+END]]></definition>
+</function>
+
+<trigger name="trigger_book_entry_set_created_at_timestamp" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="false" trunc-event="false"
+	 table="public.book_entry">
+		<function signature="public.set_created_at_timestamp()"/>
+</trigger>
+
+<trigger name="trigger_book_entry_set_updated_at_timestamp" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.book_entry">
+		<function signature="public.set_updated_at_timestamp()"/>
+</trigger>
+
+<trigger name="trigger_user_set_created_at_timestamp" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="false" trunc-event="false"
+	 table="public.&quot;user&quot;">
+		<function signature="public.set_created_at_timestamp()"/>
+</trigger>
+
+<trigger name="trigger_user_set_updated_at_timestamp" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.&quot;user&quot;">
+		<function signature="public.set_updated_at_timestamp()"/>
+</trigger>
+
+<table name="publisher_entry">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1960" y="300"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="name_original">
+		<type name="text"/>
+	</column>
+	<column name="name_romanized" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="publisher_entry_pkey" type="pk-constr" table="public.publisher_entry">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="publisher_entry_uni" type="uq-constr" table="public.publisher_entry">
+		<columns names="id,name_original,name_romanized" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="book_publisher">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1840" y="480"/>
+	<column name="id" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="created_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<column name="updated_at">
+		<type name="timestamp" with-timezone="true"/>
+	</column>
+	<constraint name="book_publisher_pkey" type="pk-constr" table="public.book_publisher">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="id_book_entry" index="4"/>
+		<object name="id_publisher_entry" index="3"/>
+	</customidxs>
+
+	<customidxs object-type="constraint">
+		<object name="book_entry_fk" index="2"/>
+		<object name="publisher_entry_fk" index="1"/>
+	</customidxs>
+</table>
+
+<trigger name="trigger_book_publisher_created_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="true" del-event="false" upd-event="false" trunc-event="false"
+	 table="public.book_publisher">
+		<function signature="public.set_created_at_timestamp()"/>
+</trigger>
+
+<trigger name="trigger_book_publisher_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="public.book_publisher">
+		<function signature="public.set_updated_at_timestamp()"/>
+</trigger>
+
+<relationship name="publisher_entry_has_many_book_publisher" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#584bca"
+	 src-table="public.publisher_entry"
+	 dst-table="public.book_publisher"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="book_entry_has_many_book_publisher" type="rel1n"
+	 src-col-pattern="{sc}_{st}"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#08966d"
+	 src-table="public.book_entry"
+	 dst-table="public.book_publisher"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<index name="publisher_entry_idx" table="public.publisher_entry"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="id"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="name_original"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="name_romanized"/>
+		</idxelement>
+</index>
+
+<index name="book_publisher_idx" table="public.book_publisher"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="id"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="id_publisher_entry"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="id_book_entry"/>
+		</idxelement>
+</index>
+
+<index name="user_book_idx" table="public.user_book"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="id"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="id_user"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="id_book_entry"/>
+		</idxelement>
+</index>
+
+<index name="user_idx" table="public.&quot;user&quot;"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="0">
+		<idxelement use-sorting="true" nulls-first="false" asc-order="true">
+			<column name="id"/>
+		</idxelement>
+		<idxelement use-sorting="false">
+			<column name="username"/>
+		</idxelement>
+</index>
+
+<constraint name="AUTHOR_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.author_entry" table="public.book_author">
+	<columns names="id_AUTHOR_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_author">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_category">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="CATEGORY_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.category_entry" table="public.book_category">
+	<columns names="id_CATEGORY_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_cover">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_COVER_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_cover_entry" table="public.book_cover">
+	<columns names="id_BOOK_COVER_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_keyword">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="KEYWORD_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.keyword_entry" table="public.book_keyword">
+	<columns names="id_KEYWORD_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_language">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="LANGUAGE_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.language_entry" table="public.book_language">
+	<columns names="id_LANGUAGE_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="BOOK_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.book_entry" table="public.book_sponsor">
+	<columns names="id_BOOK_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="SPONSOR_ENTRY_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="SET NULL" ref-table="public.sponsor_entry" table="public.book_sponsor">
+	<columns names="id_SPONSOR_ENTRY" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="&quot;rel_BOOK_AUTHOR_AUTHOR_ENTRY&quot;" type="relfk"
+	 custom-color="#f7c21f"
+	 src-table="public.book_author"
+	 dst-table="public.author_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_AUTHOR_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#9ddc0b"
+	 src-table="public.book_author"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_CATEGORY_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#5d6daa"
+	 src-table="public.book_category"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_CATEGORY_CATEGORY_ENTRY&quot;" type="relfk"
+	 custom-color="#31d562"
+	 src-table="public.book_category"
+	 dst-table="public.category_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_COVER_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#e40393"
+	 src-table="public.book_cover"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_KEYWORD_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#d9fd6b"
+	 src-table="public.book_keyword"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_KEYWORD_KEYWORD_ENTRY&quot;" type="relfk"
+	 custom-color="#548ce5"
+	 src-table="public.book_keyword"
+	 dst-table="public.keyword_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_LANGUAGE_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#85c852"
+	 src-table="public.book_language"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_LANGUAGE_LANGUAGE_ENTRY&quot;" type="relfk"
+	 custom-color="#5424c5"
+	 src-table="public.book_language"
+	 dst-table="public.language_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_SPONSOR_BOOK_ENTRY&quot;" type="relfk"
+	 custom-color="#f61c4c"
+	 src-table="public.book_sponsor"
+	 dst-table="public.book_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_SPONSOR_SPONSOR_ENTRY&quot;" type="relfk"
+	 custom-color="#0f62fe"
+	 src-table="public.book_sponsor"
+	 dst-table="public.sponsor_entry"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_BOOK_COVER_BOOK_COVER_ENTRY&quot;" type="relfk"
+	 src-table="public.book_cover"
+	 dst-table="public.book_cover_entry"
+	 src-required="false" dst-required="false"/>
+
+<permission>
+	<object name="renison" type="database"/>
+	<privileges connect="true" temporary="true"/>
+</permission>
+<permission>
+	<object name="renison" type="database"/>
+	<roles names="postgres"/>
+	<privileges create="true" connect="true" temporary="true"/>
+</permission>
+</dbmodel>
