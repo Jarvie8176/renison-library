@@ -1,0 +1,40 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true
+    }
+  },
+  "rules": {
+    "for-direction": "error",
+    "getter-return": [
+      "error",
+      {
+        "allowImplicit": false
+      }
+    ],
+    "no-await-in-loop": "warn",
+    "no-compare-neg-zero": "error",
+    "no-cond-assign": [
+      "error",
+      "except-parens"
+    ],
+    "no-console": "warn",
+    "no-constant-condition": [
+      "error",
+      {
+        "checkLoops": false
+      }
+    ],
+    "no-control-regex": "error",
+    "no-debugger": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error"
+  }
+}

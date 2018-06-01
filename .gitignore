@@ -3,3 +3,4 @@ library/webapp/templates/.idea/
 
 # Ignore bower components.
 library/webapp/templates/bower_components
+
